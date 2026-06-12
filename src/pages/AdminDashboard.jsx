@@ -481,7 +481,7 @@ const AdminDashboard = () => {
 
 
   const openPreviewModal = (themeOption) => {
-    const url = `/site/${user?.subdomain || subdomainName || 'kiranstore'}?preview=true&previewTheme=${encodeURIComponent(themeOption.type)}&previewColorTheme=${encodeURIComponent(themeConfig.colorTheme || themeOption.defaultColor || 'Blue')}&previewMode=${encodeURIComponent(themeConfig.themeMode || 'Dark')}&previewSeason=${encodeURIComponent(themeConfig.seasonType || 'Default')}&previewFont=${encodeURIComponent(themeConfig.fontStyle || themeOption.defaultFont || 'Modern')}`;
+    const url = `/${user?.subdomain || subdomainName || 'kiranstore'}?preview=true&previewTheme=${encodeURIComponent(themeOption.type)}&previewColorTheme=${encodeURIComponent(themeConfig.colorTheme || themeOption.defaultColor || 'Blue')}&previewMode=${encodeURIComponent(themeConfig.themeMode || 'Dark')}&previewSeason=${encodeURIComponent(themeConfig.seasonType || 'Default')}&previewFont=${encodeURIComponent(themeConfig.fontStyle || themeOption.defaultFont || 'Modern')}`;
     setPreviewUrl(url);
     setSelectedThemeOption(themeOption);
     setShowThemeModal(true);
@@ -1229,15 +1229,17 @@ const AdminDashboard = () => {
   const getSubdomainUrl = (sub) => {
     const hostname = window.location.hostname;
     const hasIP = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/.test(hostname) || hostname.includes(':');
-    if (hasIP) {
-      return `/site/${sub}`;
+    
+    // Fallback to path router for localhost, IPs, and free platform domains that don't support wildcard DNS
+    const isPlatformDomain = hostname.includes('netlify.app') || hostname.includes('onrender.com') || hostname.includes('vercel.app') || hostname === 'localhost' || hostname === '127.0.0.1';
+    
+    if (hasIP || isPlatformDomain) {
+      return `/${sub}`;
     }
+    
+    // For real custom domains (like yourdomain.com) with wildcard DNS enabled
     const protocol = window.location.protocol;
-    const host = window.location.host;
-    if (host.includes('localhost')) {
-      return `${protocol}//${sub}.localhost:5173/`;
-    }
-    const cleanHost = host.replace(/^www\./, '');
+    const cleanHost = window.location.host.replace(/^www\./, '');
     return `${protocol}//${sub}.${cleanHost}/`;
   };
 

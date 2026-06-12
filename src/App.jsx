@@ -64,8 +64,8 @@ function App() {
           <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           
-          {/* Local testing route: Preview by path */}
-          <Route path="/site/:subdomain" element={<DynamicTenantSite />} />
+          {/* Catch-all dynamic routing for tenants */}
+          <Route path="/:subdomain" element={<DynamicTenantSite />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
