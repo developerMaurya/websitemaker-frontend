@@ -225,6 +225,14 @@ const DynamicTenantSite = () => {
     }
     if (hostname === 'localhost' || hostname === '127.0.0.1') return pathSubdomain || 'kiranstore';
 
+    // Explicitly ignore main platform domain so we don't accidentally load it as a tenant
+    if (
+      hostname === 'varanasihub.netlify.app' || 
+      hostname === 'websitemaker-frontend.netlify.app'
+    ) {
+      return pathSubdomain || 'kiranstore';
+    }
+
     // Check if running on localhost subdomain e.g. kiranstore.localhost
     if (hostname.endsWith('.localhost')) {
       return hostname.split('.')[0];

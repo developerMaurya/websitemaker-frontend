@@ -15,6 +15,15 @@ const getSubdomain = () => {
   const hostname = window.location.hostname;
   const hasIP = /(?:[0-9]{1,3}\.){3}[0-9]{1,3}/.test(hostname) || hostname.includes(':');
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hasIP) return null;
+  
+  // Explicitly ignore your main platform domains so they show the Home Page
+  if (
+    hostname === 'varanasihub.netlify.app' || 
+    hostname === 'websitemaker-frontend.netlify.app'
+  ) {
+    return null;
+  }
+
   const parts = hostname.split('.');
   
   // If hostname is e.g. kiranstore.localhost, parts is ["kiranstore", "localhost"]
