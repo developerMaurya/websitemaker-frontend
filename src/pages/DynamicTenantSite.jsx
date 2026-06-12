@@ -12,7 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 const getMappedBusinessType = (type) => {
   if (!type) return 'Corporate & General';
   const t = type.toLowerCase();
-  
+
   if (t.includes('kirana') || t.includes('grocery') || t.includes('supermarket') || t.includes('essential')) {
     return 'Kirana & Grocery';
   }
@@ -93,7 +93,7 @@ const DynamicTenantSite = () => {
   const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', mobile: '', address: '', request: '' });
   const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, review: '' });
   const [formSuccess, setFormSuccess] = useState({ type: '', msg: '' });
-  
+
   // Shopping Cart & Custom Form States
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -224,14 +224,17 @@ const DynamicTenantSite = () => {
       return pathSubdomain || 'kiranstore';
     }
     if (hostname === 'localhost' || hostname === '127.0.0.1') return pathSubdomain || 'kiranstore';
-    
+
     // Check if running on localhost subdomain e.g. kiranstore.localhost
     if (hostname.endsWith('.localhost')) {
       return hostname.split('.')[0];
     }
-    
+
     // Detect if platform domain vs custom domain
-    const isPlatformDomain = hostname.toLowerCase().includes('websitemaker');
+    const isPlatformDomain = hostname.toLowerCase().includes('websitemaker') ||
+      hostname.toLowerCase().includes('netlify.app') ||
+      hostname.toLowerCase().includes('vercel.app') ||
+      hostname.toLowerCase().includes('onrender.com');
     if (isPlatformDomain) {
       const parts = hostname.split('.');
       if (parts.length > 2 && parts[0] !== 'www') {
@@ -398,7 +401,7 @@ const DynamicTenantSite = () => {
     setFormSuccess({ type: '', msg: '' });
     try {
       const nameVal = customFormValues['Full Name'] || customFormValues['Name'] || 'Anonymous Guest';
-      
+
       const payload = {
         name: nameVal,
         submittedData: customFormValues
@@ -2246,7 +2249,7 @@ const DynamicTenantSite = () => {
                               </h3>
 
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                
+
                                 {/* Guest Slider */}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
@@ -4669,7 +4672,7 @@ const DynamicTenantSite = () => {
             </h3>
             <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '1.2rem' }}>✕</button>
           </div>
-          
+
           <div style={{ flexGrow: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {cart.length === 0 ? (
               <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginTop: '40px' }}>Your cart is empty.</p>
@@ -4695,7 +4698,7 @@ const DynamicTenantSite = () => {
               ))
             )}
           </div>
-          
+
           {cart.length > 0 && (
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '16px', marginTop: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '1.1rem', fontWeight: 'bold' }}>
