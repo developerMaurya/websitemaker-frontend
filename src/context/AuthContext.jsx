@@ -5,15 +5,7 @@ export const AuthContext = createContext();
 
 // Dynamic API URL detection: support local or production backend
 const getApiUrl = () => {
-  const hostname = window.location.hostname;
-  const ipMatch = hostname.match(/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/);
-  if (ipMatch) {
-    return `http://${ipMatch[0]}:5000/api`;
-  }
-  if (hostname.includes(':') || hostname === 'localhost' || hostname === '127.0.0.1' || hostname.endsWith('.localhost')) {
-    return 'http://localhost:5000/api';
-  }
-  return `http://${hostname}:5000/api`;
+  return import.meta.env.VITE_API_URL || 'https://websitemaker-backend.onrender.com/api';
 };
 const API_URL = getApiUrl();
 
