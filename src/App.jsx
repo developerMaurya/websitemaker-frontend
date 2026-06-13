@@ -59,7 +59,8 @@ function App() {
           {/* Main platform routes */}
           <Route path="/" element={<PortalHome />} />
           <Route path="/directory" element={<Directory />} />
-          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin loginType="admin" />} />
+          <Route path="/shop-login" element={<AdminLogin loginType="shop" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/superadmin-login" element={<SuperAdminLogin />} />
           <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />

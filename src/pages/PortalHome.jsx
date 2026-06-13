@@ -113,7 +113,7 @@ const PortalHome = () => {
               + Add My Shop for Free
             </Link>
             <Link
-              to="/login"
+              to="/shop-login"
               className="glass-button secondary"
               style={{ 
                 display: 'inline-flex',

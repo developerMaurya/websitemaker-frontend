@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const AdminLogin = () => {
+const AdminLogin = ({ loginType = 'admin' }) => {
   const { login, user, API_URL } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -146,7 +146,7 @@ const AdminLogin = () => {
               <ArrowLeft size={14} /> Back to Directory
             </Link>
             <h2 style={{ fontSize: '2rem', marginBottom: '8px' }}>
-              {viewMode === 'login' && 'My Shop Login'}
+              {viewMode === 'login' && (loginType === 'shop' ? 'My Shop Login' : 'Admin Login')}
               {viewMode === 'forgot' && 'Reset Request'}
               {viewMode === 'reset' && 'Choose Password'}
             </h2>
@@ -196,7 +196,7 @@ const AdminLogin = () => {
           {viewMode === 'login' && (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Shop Username</label>
+                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>{loginType === 'shop' ? 'Shop Username' : 'Admin Username'}</label>
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <User size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
                   <input
@@ -250,7 +250,7 @@ const AdminLogin = () => {
           {viewMode === 'forgot' && (
             <form onSubmit={handleForgotPasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Shop Username</label>
+                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>{loginType === 'shop' ? 'Shop Username' : 'Admin Username'}</label>
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <User size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
                   <input

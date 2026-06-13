@@ -103,11 +103,18 @@ const Navbar = () => {
                 Add My Shop
               </Link>
               <Link
-                to="/login"
+                to="/shop-login"
                 className="glass-button secondary"
                 style={{ padding: '8px 16px', fontSize: '0.9rem' }}
               >
                 My Shop Login
+              </Link>
+              <Link
+                to="/login"
+                className="glass-button secondary"
+                style={{ padding: '8px 16px', fontSize: '0.9rem' }}
+              >
+                Admin Login
               </Link>
               <Link
                 to="/superadmin-login"
