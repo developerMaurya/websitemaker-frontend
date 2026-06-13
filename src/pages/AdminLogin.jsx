@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const AdminLogin = ({ loginType = 'admin' }) => {
-  const { login, user, API_URL } = useContext(AuthContext);
+  const { login, user, tenant, API_URL } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,13 +27,13 @@ const AdminLogin = ({ loginType = 'admin' }) => {
     if (user) {
       if (user.role === 'superadmin') {
         navigate('/superadmin-dashboard');
-      } else if (user.role === 'admin') {
+      } else if (tenant) {
         navigate('/admin-dashboard');
       } else {
         navigate('/shop-dashboard');
       }
     }
-  }, [user, navigate]);
+  }, [user, tenant, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

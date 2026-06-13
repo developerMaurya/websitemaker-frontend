@@ -5,7 +5,7 @@ import axios from 'axios';
 import { LogOut, Home, Save, User, Store, MapPin, Tag, Phone, Link as LinkIcon, Image as ImageIcon, Upload, CheckCircle2 } from 'lucide-react';
 
 const ShopDashboard = () => {
-  const { user, API_URL, logout, refreshSession } = useContext(AuthContext);
+  const { user, tenant, API_URL, logout, refreshSession, loading: authLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -48,33 +48,35 @@ const ShopDashboard = () => {
   ].sort();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else if (user.role === 'admin') {
-      navigate('/admin-dashboard');
-    } else if (user.role === 'superadmin') {
-      navigate('/superadmin-dashboard');
-    } else {
-      // Initialize form data with user info
-      setFormData({
-        companyName: user.companyName || '',
-        category: user.category || '',
-        phone: user.phone || '',
-        whatsapp: user.whatsapp || '',
-        street: user.address?.street || '',
-        city: user.address?.city || '',
-        state: user.address?.state || '',
-        country: user.address?.country || 'India',
-        pinCode: user.address?.pinCode || '',
-        landmark: user.landmark || '',
-        mapLocation: user.mapLocation || '',
-        websiteLink: user.websiteLink || user.socialLinks?.website || '',
-        additionalItems: user.additionalItems?.join(', ') || '',
-        remarks: user.remarks || '',
-        logo: user.logo || ''
-      });
+    if (!authLoading) {
+      if (!user) {
+        navigate('/login');
+      } else if (tenant) {
+        navigate('/admin-dashboard');
+      } else if (user.role === 'superadmin') {
+        navigate('/superadmin-dashboard');
+      } else {
+        // Initialize form data with user info
+        setFormData({
+          companyName: user.companyName || '',
+          category: user.category || '',
+          phone: user.phone || '',
+          whatsapp: user.whatsapp || '',
+          street: user.address?.street || '',
+          city: user.address?.city || '',
+          state: user.address?.state || '',
+          country: user.address?.country || 'India',
+          pinCode: user.address?.pinCode || '',
+          landmark: user.landmark || '',
+          mapLocation: user.mapLocation || '',
+          websiteLink: user.websiteLink || user.socialLinks?.website || '',
+          additionalItems: user.additionalItems?.join(', ') || '',
+          remarks: user.remarks || '',
+          logo: user.logo || ''
+        });
+      }
     }
-  }, [user, navigate]);
+  }, [user, tenant, authLoading, navigate]);
 
   const showAlert = (type, message) => {
     setAlert({ type, message });
