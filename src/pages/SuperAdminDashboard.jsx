@@ -414,7 +414,6 @@ const SuperAdminDashboard = () => {
       logo: adm.logo || '',
       banner: adm.banner || ''
     });
-    setActiveTab('admins');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -621,6 +620,215 @@ const SuperAdminDashboard = () => {
             </div>
           )}
 
+          {/* Account Edit Modal / Panel (Global) */}
+          {editingAdmin && (
+            <div className="glass-panel animate-fade-in" style={{ border: '1px solid var(--accent-purple)', boxShadow: '0 0 20px rgba(139,92,246,0.15)', marginBottom: '30px' }}>
+              <div className="flex-between" style={{ marginBottom: '20px' }}>
+                <h3 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Edit size={18} style={{ color: 'var(--accent-purple)' }} />
+                  Modify Account Details: {editForm.companyName}
+                </h3>
+                <button onClick={() => setEditingAdmin(null)} className="glass-button secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>✕ Close</button>
+              </div>
+
+              <form onSubmit={handleUpdateAdminSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Company Shop Name</label>
+                    <input
+                      type="text"
+                      value={editForm.companyName}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, companyName: e.target.value }))}
+                      className="glass-input"
+                      required
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Admin Login Email</label>
+                    <input
+                      type="email"
+                      value={editForm.email}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
+                      className="glass-input"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>Subdomain Prefix (Will change URL!)</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <input
+                      type="text"
+                      value={editForm.subdomain}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, subdomain: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') }))}
+                      className="glass-input"
+                      style={{ flex: 1 }}
+                      required
+                    />
+                    <span style={{ color: 'var(--text-muted)', fontWeight: 'bold' }}>.localhost:5173</span>
+                  </div>
+                </div>
+
+                {/* select category no dropdown (clickable tags) */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Select Category Niche (Click Tag)</label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+                    {Array.from(new Set([...categories.map(c => c.name), 'Portfolio & CV'])).map((catName, index) => {
+                      const isSelected = editForm.category === catName;
+                      return (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setEditForm(prev => ({ ...prev, category: catName }))}
+                          style={{
+                            padding: '5px 12px',
+                            fontSize: '0.75rem',
+                            borderRadius: '16px',
+                            border: isSelected ? '1px solid var(--accent-purple)' : '1px solid var(--border-color)',
+                            background: isSelected ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255,255,255,0.02)',
+                            color: isSelected ? 'white' : 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease'
+                          }}
+                        >
+                          {catName}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Phone No</label>
+                    <input
+                      type="text"
+                      value={editForm.phone}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
+                      className="glass-input"
+                    />
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>WhatsApp No</label>
+                    <input
+                      type="text"
+                      value={editForm.whatsapp}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, whatsapp: e.target.value }))}
+                      className="glass-input"
+                    />
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>Address Details</span>
+                  <input
+                    type="text"
+                    placeholder="Street / Area Name..."
+                    value={editForm.street}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, street: e.target.value }))}
+                    className="glass-input"
+                  />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder="City"
+                      value={editForm.city}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, city: e.target.value }))}
+                      className="glass-input"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="State"
+                      value={editForm.state}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, state: e.target.value }))}
+                      className="glass-input"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Pin Code"
+                      value={editForm.pinCode}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, pinCode: e.target.value }))}
+                      className="glass-input"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>Extended Shop Details</span>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder="Landmark..."
+                      value={editForm.landmark}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, landmark: e.target.value }))}
+                      className="glass-input"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Map Location URL..."
+                      value={editForm.mapLocation}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, mapLocation: e.target.value }))}
+                      className="glass-input"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Remarks (e.g. Open Mon-Sat 9AM-8PM)..."
+                    value={editForm.remarks}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, remarks: e.target.value }))}
+                    className="glass-input"
+                  />
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', cursor: 'pointer', marginTop: '4px' }}>
+                    <input
+                      type="checkbox"
+                      checked={editForm.isProfessional}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, isProfessional: e.target.checked }))}
+                    />
+                    Mark as Professional Shop Profile
+                  </label>
+                </div>
+
+                {/* Base64 Asset edits */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Logo Upload</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileChange(e, 'logo', 'edit')}
+                      style={{ fontSize: '0.75rem', width: '100%', marginTop: '4px' }}
+                    />
+                  </div>
+                  <div>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Hero Banner Upload</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleFileChange(e, 'banner', 'edit')}
+                      style={{ fontSize: '0.75rem', width: '100%', marginTop: '4px' }}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/25"
+                >
+                  <CheckCircle2 size={18} />
+                  Save and Deploy Merchant Updates
+                </button>
+              </form>
+            </div>
+          )}
+
           {/* Modular Sidebar Split */}
           <div className="grid-cols-12" style={{ alignItems: 'flex-start' }}>
             
@@ -792,215 +1000,6 @@ const SuperAdminDashboard = () => {
               {activeTab === 'premium_list' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                   
-                  {/* Account Edit Modal / Panel */}
-                  {editingAdmin && (
-                    <div className="glass-panel animate-fade-in" style={{ border: '1px solid var(--accent-purple)', boxShadow: '0 0 20px rgba(139,92,246,0.15)' }}>
-                      <div className="flex-between" style={{ marginBottom: '20px' }}>
-                        <h3 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <Edit size={18} style={{ color: 'var(--accent-purple)' }} />
-                          Modify Account Details: {editForm.companyName}
-                        </h3>
-                        <button onClick={() => setEditingAdmin(null)} className="glass-button secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>✕ Close</button>
-                      </div>
-
-                      <form onSubmit={handleUpdateAdminSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Company Shop Name</label>
-                            <input
-                              type="text"
-                              value={editForm.companyName}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, companyName: e.target.value }))}
-                              className="glass-input"
-                              required
-                            />
-                          </div>
-
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Admin Login Email</label>
-                            <input
-                              type="email"
-                              value={editForm.email}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
-                              className="glass-input"
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>Subdomain Prefix (Will change URL!)</label>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <input
-                              type="text"
-                              value={editForm.subdomain}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, subdomain: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') }))}
-                              className="glass-input"
-                              style={{ flex: 1 }}
-                              required
-                            />
-                            <span style={{ color: 'var(--text-muted)', fontWeight: 'bold' }}>.localhost:5173</span>
-                          </div>
-                        </div>
-
-                        {/* select category no dropdown (clickable tags) */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                          <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Select Category Niche (Click Tag)</label>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
-                            {categories.map((c) => {
-                              const isSelected = editForm.category === c.name;
-                              return (
-                                <button
-                                  key={c._id}
-                                  type="button"
-                                  onClick={() => setEditForm(prev => ({ ...prev, category: c.name }))}
-                                  style={{
-                                    padding: '5px 12px',
-                                    fontSize: '0.75rem',
-                                    borderRadius: '16px',
-                                    border: isSelected ? '1px solid var(--accent-purple)' : '1px solid var(--border-color)',
-                                    background: isSelected ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255,255,255,0.02)',
-                                    color: isSelected ? 'white' : 'var(--text-secondary)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.15s ease'
-                                  }}
-                                >
-                                  {c.name}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Phone No</label>
-                            <input
-                              type="text"
-                              value={editForm.phone}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
-                              className="glass-input"
-                            />
-                          </div>
-
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                            <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>WhatsApp No</label>
-                            <input
-                              type="text"
-                              value={editForm.whatsapp}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, whatsapp: e.target.value }))}
-                              className="glass-input"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Address */}
-                        <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>Address Details</span>
-                          <input
-                            type="text"
-                            placeholder="Street / Area Name..."
-                            value={editForm.street}
-                            onChange={(e) => setEditForm(prev => ({ ...prev, street: e.target.value }))}
-                            className="glass-input"
-                          />
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-                            <input
-                              type="text"
-                              placeholder="City"
-                              value={editForm.city}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, city: e.target.value }))}
-                              className="glass-input"
-                              required
-                            />
-                            <input
-                              type="text"
-                              placeholder="State"
-                              value={editForm.state}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, state: e.target.value }))}
-                              className="glass-input"
-                              required
-                            />
-                            <input
-                              type="text"
-                              placeholder="Pin Code"
-                              value={editForm.pinCode}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, pinCode: e.target.value }))}
-                              className="glass-input"
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>Extended Shop Details</span>
-                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                            <input
-                              type="text"
-                              placeholder="Landmark..."
-                              value={editForm.landmark}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, landmark: e.target.value }))}
-                              className="glass-input"
-                            />
-                            <input
-                              type="text"
-                              placeholder="Map Location URL..."
-                              value={editForm.mapLocation}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, mapLocation: e.target.value }))}
-                              className="glass-input"
-                            />
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="Remarks (e.g. Open Mon-Sat 9AM-8PM)..."
-                            value={editForm.remarks}
-                            onChange={(e) => setEditForm(prev => ({ ...prev, remarks: e.target.value }))}
-                            className="glass-input"
-                          />
-                          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', cursor: 'pointer', marginTop: '4px' }}>
-                            <input
-                              type="checkbox"
-                              checked={editForm.isProfessional}
-                              onChange={(e) => setEditForm(prev => ({ ...prev, isProfessional: e.target.checked }))}
-                            />
-                            Mark as Professional Shop Profile
-                          </label>
-                        </div>
-
-                        {/* Base64 Asset edits */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                          <div>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Logo Upload</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, 'logo', 'edit')}
-                              style={{ fontSize: '0.75rem', width: '100%', marginTop: '4px' }}
-                            />
-                          </div>
-                          <div>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Hero Banner Upload</span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileChange(e, 'banner', 'edit')}
-                              style={{ fontSize: '0.75rem', width: '100%', marginTop: '4px' }}
-                            />
-                          </div>
-                        </div>
-
-                        <button
-                          type="submit"
-                          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/25"
-                        >
-                          <CheckCircle2 size={18} />
-                          Save and Deploy Merchant Updates
-                        </button>
-                      </form>
-                    </div>
-                  )}
-
                   {/* Password Reset Modal Panel */}
                   {resettingId && (
                     <div className="glass-panel animate-fade-in" style={{ border: '1px solid var(--accent-purple)', background: 'rgba(139,92,246,0.05)', padding: '20px' }}>
