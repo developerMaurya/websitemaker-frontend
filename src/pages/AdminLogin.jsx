@@ -27,10 +27,10 @@ const AdminLogin = ({ loginType = 'admin' }) => {
     if (user) {
       if (user.role === 'superadmin') {
         navigate('/superadmin-dashboard');
-      } else if (!user.tenant) {
-        navigate('/shop-dashboard');
-      } else {
+      } else if (user.role === 'admin') {
         navigate('/admin-dashboard');
+      } else {
+        navigate('/shop-dashboard');
       }
     }
   }, [user, navigate]);

@@ -50,7 +50,7 @@ const ShopDashboard = () => {
   useEffect(() => {
     if (!user) {
       navigate('/login');
-    } else if (user.tenant) {
+    } else if (user.role === 'admin') {
       navigate('/admin-dashboard');
     } else if (user.role === 'superadmin') {
       navigate('/superadmin-dashboard');
@@ -185,21 +185,67 @@ const ShopDashboard = () => {
             <p style={{ color: 'var(--text-secondary)' }}>Keep your directory listing up to date so customers can find your business easily.</p>
           </div>
 
-          {alert && (
-            <div style={{
-              background: alert.type === 'green' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-              border: `1px solid ${alert.type === 'green' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}`,
-              color: alert.type === 'green' ? '#10b981' : '#ef4444',
-              padding: '16px',
+          {/* Alert Notification */}
+          {alert && alert.message && (
+            <div className={`badge ${alert.type === 'green' ? 'green' : 'red'}`} style={{
+              width: '100%',
+              padding: '12px 16px',
               borderRadius: '8px',
+              fontSize: '0.95rem',
               marginBottom: '24px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px'
+              justifyContent: 'center'
             }}>
-              <CheckCircle2 size={18} />
-              {alert.message}
+              {alert.type === 'green' ? '✅' : '⚠️'} {alert.message}
+            </div>
+          )}
+
+          {/* Superadmin Broadcast Notifications */}
+          {user?.notifications && user.notifications.filter(n => !n.isRead).length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+              {user.notifications.filter(n => !n.isRead).map((notif) => (
+                <div key={notif._id} className="glass-panel animate-fade-in" style={{
+                  padding: '14px 20px',
+                  borderRadius: '8px',
+                  borderLeft: '4px solid var(--accent-purple)',
+                  background: 'rgba(139, 92, 246, 0.08)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '1.2rem' }}>🔔</span>
+                    <div>
+                      <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{notif.message}</p>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{new Date(notif.createdAt).toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      try {
+                        await axios.patch(`${API_URL}/admin/notifications/${notif._id}/read`);
+                        refreshSession();
+                      } catch (err) {
+                        console.error('Failed to dismiss notification:', err);
+                      }
+                    }}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid var(--border-color)',
+                      color: 'var(--text-primary)',
+                      borderRadius: '4px',
+                      padding: '4px 10px',
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              ))}
             </div>
           )}
 
