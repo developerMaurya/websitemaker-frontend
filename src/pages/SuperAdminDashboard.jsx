@@ -358,6 +358,7 @@ const SuperAdminDashboard = () => {
           country: adminForm.country,
           pinCode: adminForm.pinCode
         },
+        websiteLink: adminForm.website,
         logo: adminForm.logo,
         banner: adminForm.banner
       };
@@ -438,6 +439,7 @@ const SuperAdminDashboard = () => {
         landmark: editForm.landmark,
         mapLocation: editForm.mapLocation,
         remarks: editForm.remarks,
+        websiteLink: editForm.website,
         isProfessional: editForm.isProfessional,
         logo: editForm.logo,
         banner: editForm.banner
@@ -1384,6 +1386,17 @@ const SuperAdminDashboard = () => {
                       </div>
                     </div>
 
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <label style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Website Link (Optional)</label>
+                      <input
+                        type="url"
+                        placeholder="https://myshop.com"
+                        value={adminForm.website || ''}
+                        onChange={(e) => setAdminForm(prev => ({ ...prev, website: e.target.value }))}
+                        className="glass-input"
+                      />
+                    </div>
+
                     {/* Address Section */}
                     <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>Address Details</span>
@@ -1494,7 +1507,7 @@ const SuperAdminDashboard = () => {
                         mapLocation: adminForm.mapLocation,
                         additionalItems: adminForm.additionalItems ? adminForm.additionalItems.split(',').map(item => item.trim()) : [],
                         remarks: adminForm.remarks,
-                        socialLinks: { website: adminForm.website },
+                        websiteLink: adminForm.website,
                         address: {
                           street: adminForm.street,
                           city: adminForm.city,
@@ -1608,6 +1621,17 @@ const SuperAdminDashboard = () => {
                             className="glass-input"
                           />
                         </div>
+                      </div>
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Website Link (Optional)</label>
+                        <input
+                          type="url"
+                          placeholder="https://myshop.com"
+                          value={adminForm.website || ''}
+                          onChange={(e) => setAdminForm(prev => ({ ...prev, website: e.target.value }))}
+                          className="glass-input"
+                        />
                       </div>
                     </div>
 

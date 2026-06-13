@@ -94,9 +94,7 @@ const Register = () => {
         },
         landmark: formData.landmark,
         mapLocation: formData.mapLocation,
-        socialLinks: {
-          website: formData.website
-        },
+        websiteLink: formData.website,
         additionalItems: formData.additionalItems.split(',').map(item => item.trim()).filter(Boolean),
         remarks: formData.remarks,
         logo: formData.logo,
