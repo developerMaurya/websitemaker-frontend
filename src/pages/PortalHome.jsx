@@ -96,22 +96,35 @@ const PortalHome = () => {
             Explore verified companies, view interactive customer reviews, filter by specific business niches, or log in to manage your premium website content seamlessly.
           </p>
 
-          <Link
-            to="/register"
-            className="glass-button"
-            style={{ 
-              display: 'inline-flex',
-              padding: '12px 32px', 
-              fontSize: '1.1rem', 
-              background: 'var(--primary-gradient)', 
-              color: 'white', 
-              border: 'none',
-              marginBottom: '40px',
-              textDecoration: 'none'
-            }}
-          >
-            + Add My Shop for Free
-          </Link>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '40px', flexWrap: 'wrap' }}>
+            <Link
+              to="/register"
+              className="glass-button"
+              style={{ 
+                display: 'inline-flex',
+                padding: '12px 32px', 
+                fontSize: '1.1rem', 
+                background: 'var(--primary-gradient)', 
+                color: 'white', 
+                border: 'none',
+                textDecoration: 'none'
+              }}
+            >
+              + Add My Shop for Free
+            </Link>
+            <Link
+              to="/login"
+              className="glass-button secondary"
+              style={{ 
+                display: 'inline-flex',
+                padding: '12px 32px', 
+                fontSize: '1.1rem', 
+                textDecoration: 'none'
+              }}
+            >
+              My Shop Login
+            </Link>
+          </div>
 
           {/* Search & Location Filters Header */}
           <div className="glass-panel" style={{ maxWidth: '850px', margin: '0 auto', padding: '16px', display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '12px' }}>

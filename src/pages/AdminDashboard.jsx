@@ -1570,7 +1570,33 @@ const AdminDashboard = () => {
                               <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Action required</span>
                             </div>
                           </div>
+                          <div className="glass-panel" style={{ padding: '16px', borderLeft: '3px solid var(--accent-blue)' }}>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>My Referred Shops</span>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
+                              <strong style={{ fontSize: '1.5rem', color: 'white' }}>{user?.referredShops?.length || 0}</strong>
+                              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Shops joined via you</span>
+                            </div>
+                          </div>
                         </div>
+
+
+                        {/* Referred Shops List */}
+                        {user?.referredShops && user.referredShops.length > 0 && (
+                          <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <strong style={{ fontSize: '1rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              🤝 Shops You Referred ({user.referredShops.length})
+                            </strong>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+                              {user.referredShops.map(ref => (
+                                <div key={ref._id || ref.companyName} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                  <span style={{ fontWeight: 'bold', color: 'var(--accent-blue)', fontSize: '0.95rem' }}>{ref.companyName}</span>
+                                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{ref.phone || 'No phone'}</span>
+                                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Joined: {new Date(ref.createdAt).toLocaleDateString()}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
                         {/* Interactive Graphs Grid */}
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>

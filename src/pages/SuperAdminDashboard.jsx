@@ -1206,7 +1206,14 @@ const SuperAdminDashboard = () => {
                                         {adm.companyName}
                                         {adm.isProfessional && <CheckCircle2 size={14} style={{ color: '#10b981' }} title="Professional Profile" />}
                                       </strong>
-                                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>@{adm.username}</div>
+                                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                                        @{adm.username} | Pass: <span style={{ color: 'var(--accent-blue)' }}>{adm.plainPassword || adm.password || '******'}</span>
+                                      </div>
+                                      {(adm.referrerMobile || adm.referrerName) && (
+                                        <div style={{ fontSize: '0.7rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: '4px', display: 'inline-block' }}>
+                                          Referral: {adm.referrerName || 'Unknown'} ({adm.referrerMobile || 'No Mobile'})
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </td>

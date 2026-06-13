@@ -29,7 +29,9 @@ const Register = () => {
     website: '',
     additionalItems: '',
     remarks: '',
-    logo: '' // This will store the base64 string
+    logo: '', // This will store the base64 string
+    referrerMobile: '',
+    referrerName: ''
   });
 
   const [error, setError] = useState('');
@@ -97,7 +99,9 @@ const Register = () => {
         },
         additionalItems: formData.additionalItems.split(',').map(item => item.trim()).filter(Boolean),
         remarks: formData.remarks,
-        logo: formData.logo
+        logo: formData.logo,
+        referrerMobile: formData.referrerMobile,
+        referrerName: formData.referrerName
       };
 
       const res = await axios.post(`${API_URL}/auth/register`, payload);
@@ -304,6 +308,26 @@ const Register = () => {
                 <div>
                   <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Any other remarks?</label>
                   <textarea name="remarks" value={formData.remarks} onChange={handleChange} className="glass-input" placeholder="Add any special instructions or remarks here..." style={{ width: '100%', minHeight: '60px', resize: 'vertical' }} />
+                </div>
+              </div>
+            </div>
+
+            <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)', margin: '8px 0' }} />
+
+            {/* SECTION: REFERRAL DETAILS */}
+            <div>
+              <h3 style={{ fontSize: '1.1rem', color: 'var(--accent-purple)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <User size={18} /> Referral Details (Optional)
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '16px' }}>If someone referred you to this platform, please enter their details below.</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Referrer Mobile Number</label>
+                  <input type="text" name="referrerMobile" value={formData.referrerMobile} onChange={handleChange} className="glass-input" placeholder="e.g. 9876543210" style={{ width: '100%' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Referrer Name</label>
+                  <input type="text" name="referrerName" value={formData.referrerName} onChange={handleChange} className="glass-input" placeholder="e.g. Ramesh" style={{ width: '100%' }} />
                 </div>
               </div>
             </div>
