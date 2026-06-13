@@ -46,6 +46,9 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <div className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <Link to="/" style={{ color: 'var(--text-secondary)', fontWeight: '500', fontSize: '0.95rem' }} className="hover:text-white">
+            Home Page
+          </Link>
           <Link to="/directory" style={{ color: 'var(--text-secondary)', fontWeight: '500', fontSize: '0.95rem' }} className="hover:text-white">
             Shops Directory
           </Link>
@@ -60,6 +63,15 @@ const Navbar = () => {
                 >
                   <ShieldAlert size={16} />
                   Super Admin
+                </Link>
+              ) : !user.tenant ? (
+                <Link
+                  to="/shop-dashboard"
+                  className="glass-button secondary"
+                  style={{ padding: '8px 16px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <User size={16} />
+                  My Shop Dashboard
                 </Link>
               ) : (
                 <Link
@@ -95,7 +107,7 @@ const Navbar = () => {
                 className="glass-button secondary"
                 style={{ padding: '8px 16px', fontSize: '0.9rem' }}
               >
-                Admin Login
+                My Shop Login
               </Link>
               <Link
                 to="/superadmin-login"

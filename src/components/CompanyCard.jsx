@@ -81,11 +81,16 @@ const CompanyCard = ({ company, onContactClick }) => {
           </p>
         )}
 
-        {company.socialLinks?.website && (
+        {(company.websiteLink || company.socialLinks?.website) && (
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
             <ExternalLink size={15} style={{ color: '#10b981' }} />
-            <a href={company.socialLinks.website.startsWith('http') ? company.socialLinks.website : `https://${company.socialLinks.website}`} target="_blank" rel="noopener noreferrer" style={{ color: '#10b981', textDecoration: 'none' }}>
-              {company.socialLinks.website.replace(/^https?:\/\//, '')}
+            <a 
+              href={(company.websiteLink || company.socialLinks?.website).startsWith('http') ? (company.websiteLink || company.socialLinks?.website) : `https://${(company.websiteLink || company.socialLinks?.website)}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              style={{ color: '#10b981', textDecoration: 'none' }}
+            >
+              {(company.websiteLink || company.socialLinks?.website).replace(/^https?:\/\//, '')}
             </a>
           </p>
         )}
@@ -132,6 +137,18 @@ const CompanyCard = ({ company, onContactClick }) => {
           >
             <MapPin size={12} /> Map & Navigation
           </a>
+
+          {(company.websiteLink || company.socialLinks?.website) && (
+            <a
+              href={(company.websiteLink || company.socialLinks?.website).startsWith('http') ? (company.websiteLink || company.socialLinks?.website) : `https://${(company.websiteLink || company.socialLinks?.website)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-button"
+              style={{ flex: 1, padding: '8px 12px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', textDecoration: 'none', color: '#fff', borderColor: 'rgba(139, 92, 246, 0.5)', background: 'rgba(139, 92, 246, 0.2)' }}
+            >
+              <ExternalLink size={12} /> View Online Store
+            </a>
+          )}
         </div>
       </div>
     </div>
