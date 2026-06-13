@@ -2392,7 +2392,38 @@ const AdminDashboard = () => {
 
                   {/* B. Slider settings & slide list */}
                   <div style={{ background: 'rgba(255,255,255,0.01)', padding: '16px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                    <strong style={{ fontSize: '0.95rem', display: 'block', marginBottom: '12px' }}>🏞️ Hero Slider Images Carousel ({(pagesConfig.home?.bannerSlider || []).length})</strong>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                      <strong style={{ fontSize: '0.95rem' }}>🏞️ Hero Slider Images Carousel ({(pagesConfig.home?.bannerSlider || []).length})</strong>
+                      
+                      {/* Banner Display Settings */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(0,0,0,0.2)', padding: '8px 16px', borderRadius: '8px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={pagesConfig.home?.bannerSettings?.show !== false} 
+                            onChange={(e) => setPagesConfig(prev => ({
+                              ...prev,
+                              home: { ...prev.home, bannerSettings: { ...(prev.home?.bannerSettings || {}), show: e.target.checked } }
+                            }))}
+                          /> Show Banner
+                        </label>
+                        
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Opacity:</span>
+                          <input 
+                            type="range" 
+                            min="0.1" max="1" step="0.1" 
+                            value={pagesConfig.home?.bannerSettings?.opacity || 0.5} 
+                            onChange={(e) => setPagesConfig(prev => ({
+                              ...prev,
+                              home: { ...prev.home, bannerSettings: { ...(prev.home?.bannerSettings || {}), opacity: parseFloat(e.target.value) } }
+                            }))}
+                            style={{ width: '80px' }}
+                          />
+                          <span style={{ fontSize: '0.75rem' }}>{Math.round((pagesConfig.home?.bannerSettings?.opacity || 0.5) * 100)}%</span>
+                        </div>
+                      </div>
+                    </div>
                     
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
