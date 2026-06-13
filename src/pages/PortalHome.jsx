@@ -331,10 +331,18 @@ const PortalHome = () => {
 
             {/* Modal actions */}
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              {/* Direct Website visit link (Only for Premium Websites) */}
-              {contactModalCompany.isPremium && (
+              {/* Direct Website visit link */}
+              {(contactModalCompany.isPremium || contactModalCompany.websiteLink || contactModalCompany.socialLinks?.website) && (
                 <a
-                  href={getSubdomainUrl(contactModalCompany.subdomain)}
+                  href={
+                    contactModalCompany.isPremium 
+                      ? getSubdomainUrl(contactModalCompany.subdomain)
+                      : (contactModalCompany.websiteLink || contactModalCompany.socialLinks?.website).startsWith('http') 
+                        ? (contactModalCompany.websiteLink || contactModalCompany.socialLinks?.website) 
+                        : `https://${(contactModalCompany.websiteLink || contactModalCompany.socialLinks?.website)}`
+                  }
+                  target={!contactModalCompany.isPremium ? "_blank" : "_self"}
+                  rel={!contactModalCompany.isPremium ? "noopener noreferrer" : ""}
                   onClick={() => setContactModalCompany(null)}
                   className="glass-button"
                   style={{ flex: 1, padding: '12px', fontSize: '0.9rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', textDecoration: 'none', minWidth: '120px' }}

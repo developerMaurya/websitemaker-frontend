@@ -27,6 +27,8 @@ const AdminLogin = () => {
     if (user) {
       if (user.role === 'superadmin') {
         navigate('/superadmin-dashboard');
+      } else if (!user.tenant) {
+        navigate('/shop-dashboard');
       } else {
         navigate('/admin-dashboard');
       }
@@ -144,7 +146,7 @@ const AdminLogin = () => {
               <ArrowLeft size={14} /> Back to Directory
             </Link>
             <h2 style={{ fontSize: '2rem', marginBottom: '8px' }}>
-              {viewMode === 'login' && 'Admin Login'}
+              {viewMode === 'login' && 'My Shop Login'}
               {viewMode === 'forgot' && 'Reset Request'}
               {viewMode === 'reset' && 'Choose Password'}
             </h2>
@@ -194,7 +196,7 @@ const AdminLogin = () => {
           {viewMode === 'login' && (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Admin Username</label>
+                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Shop Username</label>
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <User size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
                   <input
@@ -248,7 +250,7 @@ const AdminLogin = () => {
           {viewMode === 'forgot' && (
             <form onSubmit={handleForgotPasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Admin Username</label>
+                <label style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Shop Username</label>
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                   <User size={18} style={{ position: 'absolute', left: '14px', color: 'var(--text-muted)' }} />
                   <input

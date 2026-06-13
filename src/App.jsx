@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import DynamicTenantSite from './pages/DynamicTenantSite';
 import Directory from './pages/Directory';
 import Register from './pages/Register';
+import ShopDashboard from './pages/ShopDashboard';
 
 // Multi-tenant subdomain router resolution
 const getSubdomain = () => {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/superadmin-login" element={<SuperAdminLogin />} />
           <Route path="/superadmin-dashboard" element={<SuperAdminDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/shop-dashboard" element={<ShopDashboard />} />
           
           {/* Catch-all dynamic routing for tenants */}
           <Route path="/:subdomain" element={<DynamicTenantSite />} />
