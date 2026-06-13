@@ -56,6 +56,19 @@ const Directory = () => {
     return `${protocol}//${sub}.${cleanHost}/`;
   };
 
+  const getStoreUrl = (shop) => {
+    if (shop.subdomain) {
+      return getSubdomainUrl(shop.subdomain);
+    }
+    if (shop.websiteLink) {
+      return shop.websiteLink.startsWith('http') ? shop.websiteLink : `https://${shop.websiteLink}`;
+    }
+    if (shop.socialLinks?.website) {
+      return shop.socialLinks.website.startsWith('http') ? shop.socialLinks.website : `https://${shop.socialLinks.website}`;
+    }
+    return null;
+  };
+
   const openNavigation = (shop) => {
     const dest = shop.mapLocation || `${shop.address?.street}, ${shop.address?.city}, ${shop.address?.pinCode}`;
     const url = dest.startsWith('http') ? dest : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
@@ -213,15 +226,17 @@ const Directory = () => {
                       <Navigation size={18} /> Get Directions (Map)
                     </button>
 
-                    <a 
-                      href={getSubdomainUrl(shop.subdomain)} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="glass-button" 
-                      style={{ padding: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
-                    >
-                      <Map size={16} /> View Online Store
-                    </a>
+                    {getStoreUrl(shop) && (
+                      <a 
+                        href={getStoreUrl(shop)} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="glass-button" 
+                        style={{ padding: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px', textDecoration: 'none' }}
+                      >
+                        <Map size={16} /> View Online Store
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

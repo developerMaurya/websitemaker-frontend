@@ -8,6 +8,7 @@ const ShopDashboard = () => {
   const { user, tenant, API_URL, logout, refreshSession, loading: authLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const bannerInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     companyName: '',
@@ -24,7 +25,8 @@ const ShopDashboard = () => {
     websiteLink: '',
     additionalItems: '',
     remarks: '',
-    logo: ''
+    logo: '',
+    banner: ''
   });
 
   const [alert, setAlert] = useState(null);
@@ -72,7 +74,8 @@ const ShopDashboard = () => {
           websiteLink: user.websiteLink || user.socialLinks?.website || '',
           additionalItems: user.additionalItems?.join(', ') || '',
           remarks: user.remarks || '',
-          logo: user.logo || ''
+          logo: user.logo || '',
+          banner: user.banner || ''
         });
       }
     }
@@ -93,6 +96,17 @@ const ShopDashboard = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setFormData({ ...formData, logo: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBannerUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, banner: reader.result });
       };
       reader.readAsDataURL(file);
     }
@@ -120,7 +134,8 @@ const ShopDashboard = () => {
         websiteLink: formData.websiteLink,
         additionalItems: formData.additionalItems.split(',').map(item => item.trim()).filter(Boolean),
         remarks: formData.remarks,
-        logo: formData.logo
+        logo: formData.logo,
+        banner: formData.banner
       };
 
       await axios.put(`${API_URL}/admin/profile`, payload);
@@ -347,31 +362,62 @@ const ShopDashboard = () => {
 
               <hr style={{ border: 'none', borderTop: '1px solid var(--border-color)' }} />
 
-              {/* Logo */}
+              {/* Branding (Banner & Logo) */}
               <div>
                 <h3 style={{ fontSize: '1.1rem', color: 'var(--accent-purple)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <ImageIcon size={18} /> Branding
                 </h3>
-                <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Shop Logo or Image</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <div 
-                    onClick={() => fileInputRef.current.click()}
-                    className="glass-button secondary" 
-                    style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', borderStyle: 'dashed' }}
-                  >
-                    <Upload size={18} />
-                    {formData.logo ? 'Change Image' : 'Upload Image'}
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {/* Banner Upload */}
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Shop Banner Image</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <div 
+                        onClick={() => bannerInputRef.current.click()}
+                        className="glass-button secondary" 
+                        style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', borderStyle: 'dashed' }}
+                      >
+                        <Upload size={18} />
+                        {formData.banner ? 'Change Banner' : 'Upload Banner'}
+                      </div>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        ref={bannerInputRef} 
+                        onChange={handleBannerUpload} 
+                        style={{ display: 'none' }} 
+                      />
+                      {formData.banner && (
+                        <img src={formData.banner} alt="Banner Preview" style={{ width: '120px', height: '50px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--accent-purple)' }} />
+                      )}
+                    </div>
                   </div>
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    ref={fileInputRef} 
-                    onChange={handleImageUpload} 
-                    style={{ display: 'none' }} 
-                  />
-                  {formData.logo && (
-                    <img src={formData.logo} alt="Preview" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--accent-purple)' }} />
-                  )}
+
+                  {/* Logo Upload */}
+                  <div>
+                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Shop Logo or Small Image</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <div 
+                        onClick={() => fileInputRef.current.click()}
+                        className="glass-button secondary" 
+                        style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', borderStyle: 'dashed' }}
+                      >
+                        <Upload size={18} />
+                        {formData.logo ? 'Change Logo' : 'Upload Logo'}
+                      </div>
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        ref={fileInputRef} 
+                        onChange={handleImageUpload} 
+                        style={{ display: 'none' }} 
+                      />
+                      {formData.logo && (
+                        <img src={formData.logo} alt="Logo Preview" style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--accent-purple)' }} />
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
 
