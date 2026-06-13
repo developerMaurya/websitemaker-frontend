@@ -4324,16 +4324,16 @@ const DynamicTenantSite = () => {
                     <MapPin size={18} style={{ color: 'var(--primary-accent)' }} />
                     {adminData?.address?.street}, {adminData?.address?.city}, {adminData?.address?.state} - {adminData?.address?.pinCode}
                   </p>
-                  {adminData?.phone && (
+                  {(pages.contact?.phone || adminData?.phone) && (
                     <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
                       <Phone size={18} style={{ color: 'var(--primary-accent)' }} />
-                      {adminData.phone}
+                      {pages.contact?.phone || adminData.phone}
                     </p>
                   )}
-                  {adminData?.email && (
+                  {(pages.contact?.email || adminData?.email) && (
                     <p style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
                       <Mail size={18} style={{ color: 'var(--primary-accent)' }} />
-                      {adminData.email}
+                      {pages.contact?.email || adminData.email}
                     </p>
                   )}
                 </div>
@@ -4568,8 +4568,8 @@ const DynamicTenantSite = () => {
             <div className="col-span-3" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <strong style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>Official Contacts</strong>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                {adminData?.phone && <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Phone size={14} /> {adminData.phone}</span>}
-                {adminData?.email && <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Mail size={14} /> {adminData.email}</span>}
+                {(pages.contact?.phone || adminData?.phone) && <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Phone size={14} /> {pages.contact?.phone || adminData.phone}</span>}
+                {(pages.contact?.email || adminData?.email) && <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Mail size={14} /> {pages.contact?.email || adminData.email}</span>}
                 <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>💬 WhatsApp Direct Available</span>
                 {adminData?.address && <span style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}><MapPin size={14} style={{ marginTop: '3px' }} /> {adminData.address.street}, {adminData.address.city}</span>}
               </div>
