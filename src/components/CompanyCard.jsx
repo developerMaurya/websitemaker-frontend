@@ -68,17 +68,28 @@ const CompanyCard = ({ company, onContactClick }) => {
         </div>
       </div>
 
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-        <MapPin size={15} style={{ color: 'var(--accent-purple)' }} />
-        {address?.city ? `${address.city}, ${address.state}` : 'Location configured'}
-      </p>
-
-      {phone && (
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
-          <Phone size={15} style={{ color: 'var(--accent-blue)' }} />
-          {phone}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+          <MapPin size={15} style={{ color: 'var(--accent-purple)' }} />
+          {address?.city ? `${address.city}, ${address.state}` : 'Location configured'}
         </p>
-      )}
+
+        {phone && (
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+            <Phone size={15} style={{ color: 'var(--accent-blue)' }} />
+            {phone}
+          </p>
+        )}
+
+        {company.socialLinks?.website && (
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px', margin: 0 }}>
+            <ExternalLink size={15} style={{ color: '#10b981' }} />
+            <a href={company.socialLinks.website.startsWith('http') ? company.socialLinks.website : `https://${company.socialLinks.website}`} target="_blank" rel="noopener noreferrer" style={{ color: '#10b981', textDecoration: 'none' }}>
+              {company.socialLinks.website.replace(/^https?:\/\//, '')}
+            </a>
+          </p>
+        )}
+      </div>
 
       {/* Render additional items / services if available */}
       {company.additionalItems && company.additionalItems.length > 0 && (
